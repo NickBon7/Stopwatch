@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        width: 100%;
+        height: 100vh;
+        background-image: url("https://images.pexels.com/photos/129731/pexels-photo-129731.jpeg?auto=compress&cs=tinysrgb&w=1600");
+        background-position: center;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: monospace, sans-serif, Geneva;
+      }
+
+      .box {
+        padding: 5rem;
+        max-width: 500px;
+        text-align: center;
+        position: relative;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      .time {
+        padding: 1rem 0;
+        font-size: 4rem;
+      }
+
+      button {
+        padding: 0.4rem 1rem;
+        margin: 0 0.2rem;
+        border-radius: 10px;
+        border: 1px solid #f8f8f8;
+        font-size: 1.7rem;
+      }
+
+      button:hover {
+        background-color: rgba(0, 0, 0, 0.4);
+        color: #1338dd;
+        cursor: pointer;
+      }
+    </style>
+    <title>Stopwatch</title>
+  </head>
+  <body>
+    <div class="box">
+      <div class="time">
+        <span id="mins">00</span>:<span id="secs">00</span>:<span id="tens"
+          >00</span
+        >
+      </div>
+      <button id="start"><i class="fas fa-play"></i></button>
+      <button id="pause"><i class="fas fa-pause"></i></button>
+      <button id="reset"><i class="fas fa-sync"></i></button>
+    </div>
+  </body>
+
+  <script>
+    document.getElementById("pause").disabled = true;
+
+    window.onload = function () {
+      let mins = 0;
+      let secs = 0;
+      let tens = 00;
+
+      let defMins = document.querySelector("#mins");
+      let defSecs = document.querySelector("#secs");
+      let defTens = document.querySelector("#tens");
+
+      let startBtn = document.querySelector("#start");
+      let pauseBtn = document.querySelector("#pause");
+      let resetBtn = document.querySelector("#reset");
+
+      let Interval;
+
+      const startTimer = () => {
+        tens++;
+        if (tens <= 9) {
+          defTens.innerHTML = "0" + tens;
+        }
+        if (tens > 9) {
+          defTens.innerHTML = tens;
+        }
+        if (tens > 99) {
+          secs++;
+          defSecs.innerHTML = "0" + secs;
+          tens = 0;
+          defTens.innerHTML = "0" + 0;
+        }
+
+        if (secs > 9) {
+          defSecs.innerHTML = secs;
+        }
+        if (secs > 59) {
+          mins++;
+          defMins.innerHTML = "0" + mins;
+          secs = 0;
+          defSecs.innerHTML = "0" + 0;
+        }
+      };
+
+      startBtn.onclick = () => {
+        clearInterval(Interval);
+        Interval = setInterval(startTimer, 10);
+
+        document.getElementById("pause").disabled = false;
+        document.getElementById("start").disabled = true;
+      };
+
+      pauseBtn.onclick = () => {
+        clearInterval(Interval);
+        document.getElementById("pause").disabled = true;
+        document.getElementById("start").disabled = false;
+      };
+
+      resetBtn.onclick = () => {
+        clearInterval(Interval);
+        tens = "00";
+        secs = "00";
+        mins = "00";
+        defMins.innerHTML = mins;
+        defSecs.innerHTML = secs;
+        defTens.innerHTML = tens;
+        document.getElementById("pause").disabled = true;
+        document.getElementById("start").disabled = false;
+      };
+    };
+  </script>
+</html>
